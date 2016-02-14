@@ -16,7 +16,9 @@
               <span class="cardtime">{{ item.time }}</span>
             </div>
           </div>
-          {% include 'cards/' + item.type + '.html' ignore missing %}
+          <div class="cardcontent">
+            {% include 'cards/' + item.type + '.html' ignore missing %}
+          </div>
           {% if extended %}
             <span class="cardfooter">
               <button class="cardaction">More</button>

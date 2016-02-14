@@ -37,7 +37,8 @@ body {
 .card {
   width: 75%;
   height: auto;
-  position: relative;
+  display: flex;
+  flex-direction: column;
   margin: 0 auto 10px auto;
   font-size: 14px;
   border-radius: 2px;
@@ -71,12 +72,35 @@ body {
   opacity: 0.54;
 }
 
+.cardcontent {
+  padding: 0 16px;
+  margin-bottom: 24px;
+}
+
 .cardfooter {
+  margin-top: 8px;
   padding: 8px;
 }
 
 .cardaction {
-  padding-right: 8px;
+  min-width: 88px;
+  height: 36px;
+  float: right;
+  padding: 0 6px 0 6px;
+  margin: 6px 8px 6px 0px;
+  min-width: 88px;
+  border-radius: 3px;
+  background-color: transparent;
+  font-size: 14px;
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration:none;
+  border: none;
+  outline: none;
+}
+
+.cardaction:hover {
+  background-color: rgba(158, 158, 158, 0.2);
 }
 
 #footer {
