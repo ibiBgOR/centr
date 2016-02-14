@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>centr</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/layout.css') }}">
+  </head>
+  <body>
+    {% include 'header.html' %}
+    <div id="content">
+      {% for item in feeditems %}
+        <div class="card">
+          <div class="cardheader">
+            <img class="cardicon" src="{{ url_for('static', filename='images/' + item.type | default('empty') + '.png') }}" alt={{ item.type }} />
+            <div class="cardtitle">
+              <span class="cardsource">{{ item.source }}</span><br/>
+              <span class="cardtime">{{ item.time }}</span>
+            </div>
+          </div>
+          {% include 'cards/' + item.type + '.html' ignore missing %}
+          {% if extended %}
+            <span class="cardfooter">
+              <button class="cardaction">More</button>
+              <button class="cardaction">Remove</button>
+            </span>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+    {% include 'footer.html' %}
+  </body>
+</html>

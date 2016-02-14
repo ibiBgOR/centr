@@ -1,0 +1,84 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+
+a {
+  color: #000000;
+  text-decoration: none;
+}
+
+body {
+  margin: 0px;
+  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+#header, #footer {
+  min-width: calc(100% - 32px);
+  padding: 16px;
+  background-color: #1976D2;
+}
+
+#header {
+  align-self: flex-start;
+  color: #FFFFFF;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+#content{
+  padding: 16px 0 16px;
+  overflow: hidden;
+  background-color: rgba(33,150,243,0.5);
+  flex: 1;
+}
+
+.card {
+  width: 75%;
+  height: auto;
+  position: relative;
+  margin: 0 auto 10px auto;
+  font-size: 14px;
+  border-radius: 2px;
+  background-color: #FFFFFF;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.cardheader {
+  height: 72px;
+  padding: 16px;
+}
+
+.cardicon {
+  width: 40px;
+  height: 40px;
+  float: left;
+  margin-right: 16px;
+  border-radius: 20px;
+}
+
+.cardtitle {
+  float: left;
+  padding: 4px 0 4px 0;
+}
+
+.cardsource {
+  opacity: 0.87;
+}
+
+.cardtime {
+  opacity: 0.54;
+}
+
+.cardfooter {
+  padding: 8px;
+}
+
+.cardaction {
+  padding-right: 8px;
+}
+
+#footer {
+  align-self: flex-start;
+}
