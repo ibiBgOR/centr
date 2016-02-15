@@ -17,7 +17,7 @@ body {
 #header, #footer {
   min-width: calc(100% - 32px);
   padding: 16px;
-  background-color: #1976D2;
+  background-color: #3a6d99;
 }
 
 #header {
@@ -27,10 +27,15 @@ body {
   font-weight: bold;
 }
 
+#header-logo {
+  width: 24px;
+  padding: 0px 16px;
+}
+
 #content{
   padding: 16px 0 16px;
   overflow: hidden;
-  background-color: rgba(33,150,243,0.5);
+  background-color: #EEEEEE;
   flex: 1;
 }
 
