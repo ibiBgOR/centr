@@ -1,4 +1,7 @@
 import feedparser
+from datetime import datetime
+from time import mktime
+import logging
 import config
 from feeditem import Feeditem
 
@@ -19,8 +22,36 @@ def get_feeds(feeds):
     for rssitem in feeds:
         count = 1
         for entry in rssitem.parse().entries:
-            feeditems.append(Feeditem(entry.content[0].value, 'rss', rssitem.name, entry.updated))
-            if count >= rssitem.max_count:
+
+            content = ''
+            try:
+                if entry.content[0].value == '':
+                    continue
+                content = entry.content[0].value
+            except AttributeError, e:
+                logging.error(str(e) + ' element: ' + str(entry), exc_info = True)
+                if entry.summary_detail.value == '':
+                    continue
+                content = entry.summary_detail.value
+
+            date = entry.updated_parsed
+
+            feeditems.append(
+                Feeditem(
+                    content,
+                    'rss',
+                    rssitem.name,
+                    datetime(
+                        date.tm_year,
+                        date.tm_mon,
+                        date.tm_mday,
+                        date.tm_hour,
+                        date.tm_min,
+                        date.tm_sec
+                    )
+                )
+            )
+            if rssitem.max_count != -1 and count >= rssitem.max_count:
                 break
             count += 1
 

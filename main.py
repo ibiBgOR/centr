@@ -10,6 +10,8 @@ def main_route():
     feeditems = []
     feeditems.extend(rss.get_feeds(rss.rssfeeds))
 
+    feeditems.sort(key = lambda r: r.time, reverse = True)
+
     return render_template('dashboard.html', feeditems = feeditems, extended = False)
 
 if __name__ == "__main__":

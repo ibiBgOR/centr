@@ -17,7 +17,7 @@ body {
 #header, #footer {
   min-width: calc(100% - 32px);
   padding: 16px;
-  background-color: #3a6d99;
+  background-color: #607D8B;
 }
 
 #header {
@@ -40,7 +40,7 @@ body {
 }
 
 .card {
-  width: 75%;
+  width: 750px;
   height: auto;
   display: flex;
   flex-direction: column;
