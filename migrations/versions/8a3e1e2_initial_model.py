@@ -15,14 +15,14 @@ down_revision = None
 
 
 def upgrade():
-    op.create_table("DBLogItem",
+    op.create_table("db_log_item",
         sa.Column("id", sa.Integer, primary_key = True),
         sa.Column("message", sa.Text),
         sa.Column("time", sa.DateTime),
         sa.Column("level", sa.String(5)),
         sa.Column("trace", sa.Text),
     )
-    op.create_table("DBFeedItem",
+    op.create_table("db_feed_item",
         sa.Column("id", sa.Integer, primary_key = True),
         sa.Column("content", sa.Text),
         sa.Column("type", sa.String(20)),

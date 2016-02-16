@@ -4,8 +4,11 @@ from time import mktime
 import logging
 import config
 from feeditem import Feeditem
+from db import DBConnection
 
 rssfeeds = []
+
+TYPE = 'rss'
 
 class RSSFeed:
     def __init__(self, name, url, max_count):
@@ -19,28 +22,60 @@ class RSSFeed:
 def get_feeds(feeds):
     feeditems = []
 
-    for rssitem in feeds:
-        count = 1
-        for entry in rssitem.parse().entries:
+    conn = DBConnection()
 
+    _load_feeds(feeds)
+
+    feedsources = []
+    feed_map = {}
+
+    count = 0
+    for feed in feeds:
+        feedsources.append({'src': feed.name, 'counter': 0, 'max_count': feed.max_count})
+        feed_map[feed.name] = count
+        count += 1
+
+    # Iterate over all rss feed items and decide wether or not to add them to the mainline
+    for item in conn.get_feeds(TYPE):
+
+        if item.source in [elem['src'] for elem in feedsources]:
+            max_count = feedsources[feed_map[item.source]]['max_count']
+        else:
+            max_count = 0
+
+        if max_count != -1 and feedsources[feed_map[item.source]]['counter'] >= max_count:
+            continue
+
+        feeditems.append(item)
+        feedsources[feed_map[item.source]]['counter'] += 1
+
+    return feeditems
+
+def _load_feeds(feeds):
+    for rssfeed in feeds:
+        for entry in rssfeed.parse().entries:
+            # parse loaded data
             content = ''
             try:
                 if entry.content[0].value == '':
                     continue
                 content = entry.content[0].value
             except AttributeError, e:
-                logging.error(str(e) + ' element: ' + str(entry), exc_info = True)
+                #logging.error(str(e) + ' element: ' + str(entry), exc_info = True)
                 if entry.summary_detail.value == '':
                     continue
                 content = entry.summary_detail.value
 
             date = entry.updated_parsed
 
-            feeditems.append(
+            # insert into database
+            conn = DBConnection()
+
+            conn.insert_element(
                 Feeditem(
                     content,
-                    'rss',
-                    rssitem.name,
+                    TYPE,
+                    rssfeed.name,
                     datetime(
                         date.tm_year,
                         date.tm_mon,
@@ -51,11 +86,6 @@ def get_feeds(feeds):
                     )
                 )
             )
-            if rssitem.max_count != -1 and count >= rssitem.max_count:
-                break
-            count += 1
-
-    return feeditems
 
 def reload_config():
     for rssitem in config.rss:
