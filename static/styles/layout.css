@@ -17,7 +17,7 @@ body {
 #header, #footer {
   min-width: calc(100% - 32px);
   padding: 16px;
-  background-color: #1976D2;
+  background-color: #607D8B;
 }
 
 #header {
@@ -27,15 +27,20 @@ body {
   font-weight: bold;
 }
 
+#header-logo {
+  width: 24px;
+  padding: 0px 16px;
+}
+
 #content{
   padding: 16px 0 16px;
   overflow: hidden;
-  background-color: rgba(33,150,243,0.5);
+  background-color: #EEEEEE;
   flex: 1;
 }
 
 .card {
-  width: 75%;
+  width: 750px;
   height: auto;
   display: flex;
   flex-direction: column;
@@ -47,7 +52,7 @@ body {
 }
 
 .cardheader {
-  height: 72px;
+  height: 40px;
   padding: 16px;
 }
 

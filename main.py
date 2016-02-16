@@ -1,19 +1,16 @@
 from flask import Flask, render_template
-import runtastic
 import config
-
-runtastic.fetch_data(config.runtastic['user'], config.runtastic['pass'])
+from feeditem import Feeditem
+import rss
 
 app = Flask(__name__)
 
 @app.route("/")
 def main_route():
-    feeditems = [{
-            'content': 'Runtastic Content',
-            'type': 'runtastic',
-            'source': 'Runtastic',
-            'time': 'Now'
-        }]
+    feeditems = []
+    feeditems.extend(rss.get_feeds(rss.rssfeeds))
+
+    feeditems.sort(key = lambda r: r.time, reverse = True)
 
     return render_template('dashboard.html', feeditems = feeditems, extended = False)
 
