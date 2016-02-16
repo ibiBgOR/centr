@@ -3,7 +3,7 @@ There are millions of services out there. Each one comes with an extra dashboard
 
 #Install and Run
 1. `pip install -r requirements.txt`
-2. `python main.py db init`
+2. `python main.py db upgrade`
 3. `python main.py runserver`
 
 **OR**

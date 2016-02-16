@@ -2,4 +2,3 @@ config.py
 known_sessions_file
 *.pyc
 *.db
-migrations/
