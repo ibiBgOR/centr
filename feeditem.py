@@ -1,9 +1,9 @@
 from datetime import datetime
 
 class Feeditem:
-    def __init__(self, content, type_, source, time):
+    def __init__(self, content, type, source, time):
         self.content = content
-        self.type = type_
+        self.type = type
         self.source = source
         self.time = time
 

@@ -1,3 +1,4 @@
 Flask
 html5lib
 feedparser
+Flask-Migrate
