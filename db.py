@@ -14,7 +14,7 @@ class DBFeedItem(db.Model):
     time = db.Column(db.DateTime)
 
     __table_args__ = (
-        db.UniqueConstraint('content', 'source', name='uk_content_source'),
+        db.UniqueConstraint('content', 'source', name = 'uk_content_source'),
     )
 
     def __init__(self, content, type, source, time):
@@ -71,10 +71,16 @@ class DBConnection:
                 s.rollback()
         elif isinstance(element, Feeditem):
             self.insert_element(DBFeedItem(element.content, element.type, element.source, element.time))
+        else:
+            self.insert_element(DBLogItem(
+                'An element could not be inserted into the database, because it is non of the accepted types. (' + type(element) + ')',
+                datetime.datetime.now(),
+                LOG_LEVEL['warn'],
+            ))
 
     def get_feeds(self, type):
         s = db.session
-        return s.query(DBFeedItem).filter(DBFeedItem.type == type)
+        return s.query(DBFeedItem).filter(DBFeedItem.type == type).order_by(DBFeedItem.time.desc())
 
     def get_logs(self, level):
         s = db.session
@@ -84,7 +90,7 @@ class DBConnection:
         elif level not in LOG_LEVEL:
             return s.query(DBLogItem).filter(DBLogItem.level == (level))
         elif level == LOG_LEVEL['info']:
-            return s.query(DBLogItem).filter(DBLogItem.level == (LOG_LEVEL[0]))
+            return s.query(DBLogItem).filter(DBLogItem.level == (LOG_LEVEL['info']))
         elif level == LOG_LEVEL['warn']:
             return s.query(DBLogItem).filter(or_(
                 DBLogItem.level == (LOG_LEVEL['info']),

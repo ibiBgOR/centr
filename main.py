@@ -7,11 +7,6 @@ import datetime
 import os
 import config
 from feeditem import Feeditem
-import modules.rss
-#import db
-#from db import DBFeedItem
-import modules.__init__
-import importlib
 
 app = Flask(__name__)
 
@@ -20,12 +15,25 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + basedir + '/app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.debug = True
 
+engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'], convert_unicode = True)
+database = SQLAlchemy(app)
+
+migrate = Migrate(app, database)
+manager = Manager(app)
+manager.add_command('db', MigrateCommand)
+
+@manager.command
+def runserver():
+    app.run(host = '0.0.0.0')
+
 addons = []
 
 @app.route("/")
 def main_route():
 
     from db import DBFeedItem, DBLogItem, DBConnection, LOG_LEVEL
+
+    conn = DBConnection()
 
     feeditems = []
 
@@ -34,12 +42,18 @@ def main_route():
         return
 
     for addon in addons:
-        feeds = getattr(addon, 'get_feeds')()
+        try:
+            feeds = getattr(addon, 'get_feeds')()
+        except AttributeError, e:
+            conn.insert_element(
+                DBLogItem('The addon ' + str(addon) + ' is not supported. Please implement a "get_feeds()" function or contact the developer.',
+                            datetime.datetime.now(),
+                            LOG_LEVEL['warn']
+                )
+            )
 
         if feeds == None:
             continue
-
-        conn = DBConnection()
 
         for feed in feeds:
             if isinstance(feed, Feeditem) or isinstance(feed, DBFeedItem):
@@ -48,24 +62,23 @@ def main_route():
                 conn.insert_element(
                     DBLogItem('The Element (' + str(feed) + ') could not be placed on the stream.',
                                 datetime.datetime.now(),
-                                LOG_LEVEL['warn'])
+                                LOG_LEVEL['warn']
+                    )
                 )
 
-    feeditems.sort(key = lambda r: r.time, reverse = True)
+    feeditems.sort(key = lambda element: element.time, reverse = True)
 
     return render_template('dashboard.html', feeditems = feeditems, extended = False)
 
 def __load_all_modules():
+    '''
+    Load all modules from the modules folder.
+    '''
+    import modules.__init__
+    import importlib
+
     for addon in modules.__init__.__all__:
-        #addons.append(__import__('modules.' + addon, globals))
         addons.append(importlib.import_module('.' + addon, 'modules'))
-
-database = SQLAlchemy(app)
-migrate = Migrate(app, database)
-manager = Manager(app)
-manager.add_command('db', MigrateCommand)
-
-engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'], convert_unicode = True)
 
 if __name__ == "__main__":
     __load_all_modules()
