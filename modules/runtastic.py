@@ -8,6 +8,9 @@ import sys
 import requests
 import urlparse
 
+def get_feeds():
+    pass
+
 known_sessions_file = os.path.join(os.path.dirname(__file__), 'known_sessions')
 
 def get_user_id(doc):

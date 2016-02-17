@@ -19,18 +19,18 @@ class RSSFeed:
     def parse(self):
         return feedparser.parse(self.url)
 
-def get_feeds(feeds):
+def get_feeds():
     feeditems = []
 
     conn = DBConnection()
 
-    _load_feeds(feeds)
+    _load_feeds(rssfeeds)
 
     feedsources = []
     feed_map = {}
 
     count = 0
-    for feed in feeds:
+    for feed in rssfeeds:
         feedsources.append({'src': feed.name, 'counter': 0, 'max_count': feed.max_count})
         feed_map[feed.name] = count
         count += 1

@@ -3,7 +3,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy import or_
 from sqlalchemy import exc
 import datetime
-from main import db
+from main import database as db
 from feeditem import Feeditem
 
 class DBFeedItem(db.Model):
@@ -35,19 +35,19 @@ LOG_LEVEL = {
 
 class DBLogItem(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    msg = db.Column(db.Text)
+    message = db.Column(db.Text)
     time = db.Column(db.DateTime)
     level = db.Column(db.String(5))
     trace = db.Column(db.Text)
 
     def __init__(self, msg, time, level, trace = None):
-        self.msg = msg
+        self.message = msg
         self.time = time
         self.level = level
         self.trace = trace
 
     def __repr__(self):
-        return 'DBLogItem ID: ' + str(self.id) + ' Message: ' + str(self.msg)
+        return 'DBLogItem ID: ' + str(self.id) + ' Message: ' + str(self.message)
 
 class DBConnection:
     def __init__(self):
@@ -66,7 +66,8 @@ class DBConnection:
                 s.rollback()
             except Exception, e:
                 import traceback
-                self.insert_element(DBLogItem(str(e), datetime.datetime.now(), LOG_LEVEL.error, traceback.format_exc()))
+                print e
+                #self.insert_element(DBLogItem(str(e), datetime.datetime.now(), LOG_LEVEL['error'], traceback.format_exc()))
                 s.rollback()
         elif isinstance(element, Feeditem):
             self.insert_element(DBFeedItem(element.content, element.type, element.source, element.time))
@@ -82,25 +83,25 @@ class DBConnection:
             return s.query(DBLogItem)
         elif level not in LOG_LEVEL:
             return s.query(DBLogItem).filter(DBLogItem.level == (level))
-        elif level == LOG_LEVEL.info:
+        elif level == LOG_LEVEL['info']:
             return s.query(DBLogItem).filter(DBLogItem.level == (LOG_LEVEL[0]))
-        elif level == LOG_LEVEL.warn:
+        elif level == LOG_LEVEL['warn']:
             return s.query(DBLogItem).filter(or_(
-                DBLogItem.level == (LOG_LEVEL[0]),
-                DBLogItem.level == (LOG_LEVEL[1])
+                DBLogItem.level == (LOG_LEVEL['info']),
+                DBLogItem.level == (LOG_LEVEL['warn'])
             ))
-        elif level == LOG_LEVEL.error:
+        elif level == LOG_LEVEL['error']:
             return s.query(DBLogItem).filter(or_(
-                DBLogItem.level == (LOG_LEVEL[0]),
-                DBLogItem.level == (LOG_LEVEL[1]),
-                DBLogItem.level == (LOG_LEVEL[2])
+                DBLogItem.level == (LOG_LEVEL['info']),
+                DBLogItem.level == (LOG_LEVEL['warn']),
+                DBLogItem.level == (LOG_LEVEL['error'])
             ))
         elif level == LOG_LEVEL.debug:
             return s.query(DBLogItem).filter(or_(
-                DBLogItem.level == (LOG_LEVEL[0]),
-                DBLogItem.level == (LOG_LEVEL[1]),
-                DBLogItem.level == (LOG_LEVEL[2]),
-                DBLogItem.level == (LOG_LEVEL[3])
+                DBLogItem.level == (LOG_LEVEL['info']),
+                DBLogItem.level == (LOG_LEVEL['warn']),
+                DBLogItem.level == (LOG_LEVEL['error']),
+                DBLogItem.level == (LOG_LEVEL['debug'])
             ))
 
         return None
