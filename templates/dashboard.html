@@ -2,8 +2,12 @@
 <html lang="en">
   <head>
     <title>centr</title>
+    <script src="http://waveformjs.org/waveform.js"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/layout.css') }}">
-    <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='images/centr_fav.png') }}"/>
+    <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='images/centr_fav.png') }}">
+    {% for item in addonitems %}
+      <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/' + item | default('empty') + '.css') }}">
+    {% endfor %}
   </head>
   <body>
     {% include 'header.html' %}

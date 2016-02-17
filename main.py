@@ -36,6 +36,7 @@ def main_route():
     conn = DBConnection()
 
     feeditems = []
+    addonitems = []
 
     if addons == None:
         print 'No addon loaded...'
@@ -55,6 +56,8 @@ def main_route():
         if feeds == None:
             continue
 
+        addonitems.append(feeds[0].type)
+
         for feed in feeds:
             if isinstance(feed, Feeditem) or isinstance(feed, DBFeedItem):
                 feeditems.append(feed)
@@ -68,7 +71,7 @@ def main_route():
 
     feeditems.sort(key = lambda element: element.time, reverse = True)
 
-    return render_template('dashboard.html', feeditems = feeditems, extended = False)
+    return render_template('dashboard.html', feeditems = feeditems, addonitems = addonitems, extended = False)
 
 def __load_all_modules():
     '''

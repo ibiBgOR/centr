@@ -28,6 +28,10 @@ def get_feeds():
     feedsources = []
     feed_map = {}
 
+    # if no rss feeds in config return
+    if rssfeeds == []:
+        return None
+
     count = 0
     for feed in rssfeeds:
         feedsources.append({'src': feed.name, 'counter': 0, 'max_count': feed.max_count})
@@ -42,7 +46,11 @@ def get_feeds():
         else:
             max_count = 0
 
-        if max_count != -1 and feedsources[feed_map[item.source]]['counter'] >= max_count:
+        try:
+            if max_count != -1 and feedsources[feed_map[item.source]]['counter'] >= max_count:
+                continue
+        except KeyError, e:
+            # if the feed source is no longer available in the config
             continue
 
         feeditems.append(item)

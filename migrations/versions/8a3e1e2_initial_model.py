@@ -26,7 +26,7 @@ def upgrade():
         sa.Column("id", sa.Integer, primary_key = True),
         sa.Column("content", sa.Text),
         sa.Column("type", sa.String(20)),
-        sa.Column("source", sa.String(20)),
+        sa.Column("source", sa.String(125)),
         sa.Column("time", sa.DateTime),
         sa.UniqueConstraint('content', 'source', name = 'uk_content_source'),
     )

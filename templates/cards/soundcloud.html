@@ -1,3 +1,30 @@
+<script>
+  /*new Waveform({
+    container: document.getElementById("waveform"),
+    data: item.content.waveformurl,
+  });*/
+  xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            new Waveform({
+              container: document.getElementById("waveform"),
+              data: JSON.parse(xmlhttp.responseText).samples
+            });
+        }
+    }
+  xmlhttp.open("GET", '{{item.content.waveformurl|safe}}', false);
+  xmlhttp.send();
+</script>
+
 <div class="soundcloud">
-  {{ item.content }}
+  <img class="artwork" src="{{ item.content.artworkurl }}" alt="Artwork"/>
+  <div class="right-pannel">
+    <div class="user-track">
+      <span class="user-track-item">{{ item.content.username }}</span>
+      <span class="user-track-item">{{ item.content.tracktitle }}</span>
+    </div>
+    <canvas id="waveform">
+    </canvas>
+  </div>
+    <!--{{ item.content }}-->
 </div>

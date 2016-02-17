@@ -10,7 +10,7 @@ class DBFeedItem(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     content = db.Column(db.Text)
     type = db.Column(db.String(20))
-    source = db.Column(db.String(20))
+    source = db.Column(db.String(125))
     time = db.Column(db.DateTime)
 
     __table_args__ = (

@@ -3,6 +3,7 @@ import datetime
 import json
 from config import soundcloud as config
 from db import DBConnection, DBFeedItem
+from feeditem import Feeditem
 
 TYPE = 'soundcloud'
 
@@ -17,23 +18,44 @@ conn = DBConnection()
 
 accepted_types = [m for m in config['accepted_types'] if config['accepted_types'][m] == True]
 
+source_type_mapping = {
+    'track': u'A new song was uploaded by {0}',
+    'track-repost': u'A song was reposted by {0}',
+    'comment': u'A new comment was given',
+    'favoriting': u'Someone liked a song'
+}
+
 def get_feeds():
     _load_feeds()
 
+    result = []
+
     feeds = conn.get_feeds(TYPE)
 
-    #for feed in feeds:
-    #    feed.content = json.load(feed.content)
+    for feed in feeds:
+        result.append(Feeditem(
+            content = json.loads(feed.content),
+            type = feed.type,
+            source = feed.source,
+            time = feed.time,
+        ))
 
-    return feeds
+    return result
 
 def _load_feeds():
     # print client.get('/me/activities').next_href
 
-    for element in client.get('/me/activities').collection:
+    try:
+        elements = client.get('/me/activities').collection
+    except Exception, e:
+        return
+
+    for element in elements:
         _type = element.type
         if _type not in accepted_types:
             continue
+
+        source = source_type_mapping[_type]
 
         if _type == 'track' or _type == 'track-repost':
             content = json.dumps({
@@ -46,6 +68,7 @@ def _load_feeds():
                 'genre': element.origin.genre,
                 'duration': element.origin.duration,
             })
+            source = source.format(element.origin.user['username'])
         elif _type == 'comment':
             pass
         elif _type == 'favoriting':
@@ -60,7 +83,7 @@ def _load_feeds():
             DBFeedItem(
                 content,    # content
                 TYPE,       # element type (soundcloud)
-                _type,      # source (the type of the element from soundcloud)
+                source,      # source (the type of the element from soundcloud)
                 time        # time (as datetime)
             )
         )
