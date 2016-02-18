@@ -1,6 +1,8 @@
 # Centr
 There are millions of services out there. Each one comes with an extra dashboard. Centr aims to combine the dashboard of all services. Also Centr should be easily extensible for new services.
 
+![Image of Centr](/centr.png?raw=true)
+
 # Features
 ## Included Services:
 1. RSS Feed support
@@ -23,7 +25,7 @@ For Windows:
 1. `install_and_run.bat`
 
 # Contribute
-You can contribute by adding issues and suggesting new services.
+You can contribute by adding issues and suggesting new services. Or you simply fork and make pull requests.
 
 # License
 This work is licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/).
