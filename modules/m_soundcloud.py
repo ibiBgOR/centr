@@ -59,6 +59,7 @@ def _load_feeds():
 
         if _type == 'track' or _type == 'track-repost':
             content = json.dumps({
+                'id': element.origin.id,
                 'username': element.origin.user['username'],
                 'tracktitle': element.origin.title,
                 'description': element.origin.description,
