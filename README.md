@@ -2,9 +2,12 @@
 There are millions of services out there. Each one comes with an extra dashboard. Centr aims to combine the dashboard of all services. Also Centr should be easily extensible for new services.
 
 # Features
-## Included Services
+## Included Services:
 1. RSS Feed support
 2. Soundcloud (currently WIP)
+
+## Other Features:
+- KeePass Connection
 
 # Install and Run
 1. `pip install -r requirements.txt`
