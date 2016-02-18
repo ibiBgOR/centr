@@ -32,13 +32,20 @@ def get_feeds():
 
     feeds = conn.get_feeds(TYPE)
 
+    count = 0
+
     for feed in feeds:
+        if count >= config['max_count']:
+            break
+
         result.append(Feeditem(
             content = json.loads(feed.content),
             type = feed.type,
             source = feed.source,
             time = feed.time,
         ))
+
+        count += 1
 
     return result
 
