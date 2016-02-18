@@ -46,14 +46,16 @@ def main_route():
         try:
             feeds = getattr(addon, 'get_feeds')()
         except AttributeError, e:
+            raise e
             conn.insert_element(
                 DBLogItem('The addon ' + str(addon) + ' is not supported. Please implement a "get_feeds()" function or contact the developer.',
                             datetime.datetime.now(),
                             LOG_LEVEL['warn']
                 )
             )
+            feeds = None
 
-        if feeds == None:
+        if feeds == None or len(feeds) == 0:
             continue
 
         addonitems.append(feeds[0].type)

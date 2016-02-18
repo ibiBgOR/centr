@@ -34,8 +34,8 @@ def get_feeds():
 
     count = 0
     for feed in rssfeeds:
-        feedsources.append({'src': feed.name, 'counter': 0, 'max_count': feed.max_count})
-        feed_map[feed.name] = count
+        feedsources.append({'src': 'A new post from ' + str(feed.name), 'counter': 0, 'max_count': feed.max_count})
+        feed_map['A new post from ' + str(feed.name)] = count
         count += 1
 
     # Iterate over all rss feed items and decide wether or not to add them to the mainline
@@ -68,10 +68,9 @@ def _load_feeds(feeds):
                     continue
                 content = entry.content[0].value
             except AttributeError, e:
-                #logging.error(str(e) + ' element: ' + str(entry), exc_info = True)
-                if entry.summary_detail.value == '':
+                if entry.summary == '':
                     continue
-                content = entry.summary_detail.value
+                content = entry.summary
 
             date = entry.updated_parsed
 
@@ -80,7 +79,7 @@ def _load_feeds(feeds):
                 DBFeedItem(
                     content,
                     TYPE,
-                    rssfeed.name,
+                    'A new post from ' + str(rssfeed.name),
                     datetime(
                         date.tm_year,
                         date.tm_mon,
