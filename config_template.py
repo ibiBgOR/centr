@@ -9,12 +9,13 @@ databasefile = os.path.join(basedir, '<name of keepass file>')
 
 extract = keepass.KeePassExtract(databasefile, content[0])
 
-entry = extract.get_entry('runtastic')
-
-runtastic = {
-    'username': '<prename>-<surname>-<mail>',
-    'user': '<username>', # or entry.username
-    'password': '<password>', # or entry.password
+reddit = {
+    'subreddits': [
+        {'name': '<subredditname>', 'max_count': <max item count>},
+    ],
+    'users': [
+        {'name': '<username>', 'max_count': <max item count>},
+    ],
 }
 
 rss = [
@@ -24,6 +25,14 @@ rss = [
         'max_count': 5, # <maximal count of items>
     },
 ]
+
+entry = extract.get_entry('runtastic')
+
+runtastic = {
+    'username': '<prename>-<surname>-<mail>',
+    'user': '<username>', # or entry.username
+    'password': '<password>', # or entry.password
+}
 
 entry = extract.get_entry('soundcloud')
 

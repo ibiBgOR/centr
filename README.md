@@ -27,6 +27,11 @@ For Windows:
 # Contribute
 You can contribute by adding issues and suggesting new services. Or you simply fork and make pull requests.
 
+#TODO
+[ ] Soundcloud (implement cards for comment)
+[ ] Soundcloud (implement cards for favoriting)
+[ ] Reddit (implement user login -> monitor new mails (new comments and new upvotes))
+
 # License
 This work is licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/).
 ![License](https://i.creativecommons.org/l/by-sa/4.0/88x31.png)

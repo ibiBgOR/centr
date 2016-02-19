@@ -5,3 +5,4 @@ feedparser
 Flask-Migrate
 soundcloud
 libkeepass
+praw

@@ -43,10 +43,9 @@ def main_route():
         return
 
     for addon in addons:
-        try:
+        if hasattr(addon, 'get_feeds'):
             feeds = getattr(addon, 'get_feeds')()
-        except AttributeError, e:
-            raise e
+        else:
             conn.insert_element(
                 DBLogItem('The addon ' + str(addon) + ' is not supported. Please implement a "get_feeds()" function or contact the developer.',
                             datetime.datetime.now(),

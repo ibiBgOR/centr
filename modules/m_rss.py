@@ -1,6 +1,5 @@
 import feedparser
-from datetime import datetime
-from time import mktime
+import datetime
 import logging
 import config
 from db import DBConnection, DBFeedItem
@@ -8,6 +7,7 @@ from db import DBConnection, DBFeedItem
 rssfeeds = []
 
 TYPE = 'rss'
+DATE_FORMATS = ['%Y-%m-%dT%H:%M:%SZ', '%Y-%m-%dT%H:%M:%S+00:00']
 
 conn = DBConnection()
 
@@ -63,16 +63,34 @@ def _load_feeds(feeds):
         for entry in rssfeed.parse().entries:
             # parse loaded data
             content = ''
-            try:
-                if entry.content[0].value == '':
-                    continue
-                content = entry.content[0].value
-            except AttributeError, e:
-                if entry.summary == '':
-                    continue
-                content = entry.summary
 
-            date = entry.updated_parsed
+            if hasattr(entry, 'content') and hasattr(entry.content[0], 'value'):
+                content = entry.content[0].value
+            elif hasattr(entry, 'summary'):
+                content = entry.summary
+            elif hasattr(entry, 'description'):
+                content = entry.description
+            elif hasattr(entry, 'title'):
+                content = entry.title
+
+            if content == '':
+                continue
+
+            date = None
+
+            if hasattr(entry, 'updated_parsed'):
+                _date = entry.updated_parsed
+                date = datetime.datetime(
+                    _date.tm_year,
+                    _date.tm_mon,
+                    _date.tm_mday,
+                    _date.tm_hour,
+                    _date.tm_min,
+                    _date.tm_sec
+                )
+
+            if date == None:
+                continue
 
             # insert into database
             conn.insert_element(
@@ -80,14 +98,7 @@ def _load_feeds(feeds):
                     content,
                     TYPE,
                     'A new post from ' + str(rssfeed.name),
-                    datetime(
-                        date.tm_year,
-                        date.tm_mon,
-                        date.tm_mday,
-                        date.tm_hour,
-                        date.tm_min,
-                        date.tm_sec
-                    )
+                    date
                 )
             )
 
