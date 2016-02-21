@@ -5,19 +5,17 @@
 
 .artwork {
   align-self: center;
-  /*width: 100px !important;
-  height: 100px !important;*/
+  width: 142px !important;
+  height: 142px !important;
   margin-right: 16px;
 }
 
 .right-pannel {
-  width: 100%;
   display: flex;
   flex-direction: column;
 }
 
 .user-track {
-  margin-right: 16px;
   display: flex;
   flex-direction: column;
 }
@@ -27,5 +25,6 @@
 }
 
 .waveform {
-  height: 62px;
+  width: 558px;
+  height: 100px;
 }

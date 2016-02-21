@@ -71,7 +71,7 @@ def _load_feeds():
                 'tracktitle': element.origin.title,
                 'description': element.origin.description,
                 'songurl': element.origin.permalink_url,
-                'artworkurl': element.origin.artwork_url,
+                'artworkurl': element.origin.artwork_url.replace('large', 't300x300'),
                 'waveformurl': element.origin.waveform_url,
                 'genre': element.origin.genre,
                 'duration': element.origin.duration,
