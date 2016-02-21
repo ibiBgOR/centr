@@ -88,5 +88,5 @@ def reload_config():
 reload_config()
 
 def _get_date(submission):
-    time = submission.created
+    time = submission.created_utc
     return datetime.fromtimestamp(time)
