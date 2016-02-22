@@ -1,4 +1,5 @@
 <div class="reddit">
-  {{ item.content.post_name | safe }}
+  <b>Post:</b> {{ item.content.post_name | safe }}</br>
   {{ item.content.content | safe }}
+  <img src="{{ item.content.thumbnail }}" alt="thumbnail"/>
 </div>

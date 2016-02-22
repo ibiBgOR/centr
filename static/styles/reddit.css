@@ -3,3 +3,11 @@ blockquote {
   padding: 0 8px;
   margin-left: 5px;
 }
+
+.reddit {
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  overflow: hidden;
+  max-height: 3.6em;
+  line-height: 1.8em;
+}
