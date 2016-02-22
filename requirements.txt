@@ -3,6 +3,7 @@ Flask
 html5lib
 feedparser
 Flask-Migrate
+Flask-Markdown
 soundcloud
 libkeepass
 praw

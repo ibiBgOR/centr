@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+from flaskext.markdown import Markdown
 from flask_migrate import Migrate, MigrateCommand
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine
@@ -21,6 +22,8 @@ database = SQLAlchemy(app)
 migrate = Migrate(app, database)
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
+
+Markdown(app)
 
 @manager.command
 def runserver():

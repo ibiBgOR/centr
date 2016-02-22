@@ -5,9 +5,13 @@ blockquote {
 }
 
 .reddit {
-  text-overflow: ellipsis;
-  word-wrap: break-word;
-  overflow: hidden;
-  max-height: 3.6em;
-  line-height: 1.8em;
+
+}
+
+.reddit .thumbnail {
+  float: left;
+  width: 30%;
+  height: auto;
+  margin-right: 16px;
+  border-radius: 2px;
 }

@@ -1,5 +1,8 @@
 <div class="reddit">
-  <b>Post:</b> {{ item.content.post_name | safe }}</br>
-  {{ item.content.content | safe }}
-  <img src="{{ item.content.thumbnail }}" alt="thumbnail"/>
+  {% if item.content.thumbnail %}
+    <img src="{{ item.content.thumbnail }}" alt="thumbnail" class="thumbnail" />
+  {% endif %}
+  <b>Post:</b> {{ item.content.post_name | markdown }}</br>
+  {% filter markdown %}{{ item.content.content }}{% endfilter %}
+
 </div>
