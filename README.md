@@ -21,6 +21,7 @@ There are millions of services out there. Each one comes with an extra dashboard
 
 ## For Linux:
 1. `./install_and_run.sh`
+
 ## For Windows:
 1. `install_and_run.bat`
 
