@@ -36,6 +36,6 @@ You can contribute by adding issues and suggesting new services. Or you simply f
 [ ] Reddit (implement user login -> monitor new mails (new comments and new upvotes))
 
 # License
-This work is licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/).
-
-![License](https://i.creativecommons.org/l/by-sa/4.0/88x31.png)
+Centr is licensed under the GNU General Public License version 3.
+The text of the GNU General Public License can be viewed at http://www.gnu.org/licenses/gpl.html
+See LICENSE.md file.
