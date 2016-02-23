@@ -9,6 +9,14 @@ databasefile = os.path.join(basedir, '<name of keepass file>')
 
 extract = keepass.KeePassExtract(databasefile, content[0])
 
+entry = extract.get_entry('github')
+
+github = {
+    'username': '<username>', # or entry.username,
+    'password': '<password>', # or entry.password,
+    'max_count': <max item count>
+}
+
 reddit = {
     'subreddits': [
         {'name': '<subredditname>', 'max_count': <max item count>},
