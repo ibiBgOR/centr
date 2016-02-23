@@ -2,7 +2,6 @@
   {% if item.content.thumbnail %}
     <img src="{{ item.content.thumbnail }}" alt="thumbnail" class="thumbnail" />
   {% endif %}
-  <b>Post:</b> {{ item.content.post_name | markdown }}</br>
-  {% filter markdown %}{{ item.content.content }}{% endfilter %}
-
+  <b>Post:</b> {{ item.content.post_name }}</br>
+  <!--{% filter markdown %}{{ item.content.content_first }}{% endfilter %} No content -->
 </div>

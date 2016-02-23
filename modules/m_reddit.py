@@ -73,9 +73,22 @@ def get_feeds():
         else:
             source = subreddit_action.format(loaded_source['title'])
 
+        content = json.loads(feed.content)
+
+        #if hasattr(content, 'content') and len(content['content']) > 0:
+        #    content['content_first'] = ''
+        #    content['content_additional'] = ''
+        #
+        #    counter = 0
+        #    for item in content['content'].split('/n/n'):
+        #        if counter >= 2:                            # only show 2 paragraphs
+        #            content['content_additional'] += item
+        #        else:
+        #            content['content_first'] += item
+        #        counter += 1
 
         result.append(Feeditem(
-            json.loads(feed.content),
+            content,
             TYPE,
             source,
             feed.time
@@ -103,6 +116,11 @@ def _load_feeds():
                                 img['width'] = image['width']
                         content['thumbnail'] = img['source']
 
+                    if hasattr(post, 'body'):
+                        content['content'] = post.body
+                    elif hasattr(post, 'selftext'):
+                        content['content'] = post.selftext
+
                     conn.insert_element(DBFeedItem(
                         json.dumps(content), # content
                         TYPE, # type
@@ -127,13 +145,15 @@ def _load_feeds():
 
                     if hasattr(comment, 'body'):
                         content['content'] = comment.body
+                    elif hasattr(comment, 'selftext'):
+                        content['content'] = comment.selftext
 
                     subreddit = ''
                     if hasattr(comment, 'subreddit'):
                         subreddit = comment.subreddit.name
 
-                    if hasattr(comment, 'selftext'):
-                        content['post_name'] = comment.selftext
+                    if hasattr(comment, 'title'):
+                        content['post_name'] = comment.title
                     elif hasattr(comment, 'link_title'):
                         content['post_name'] = comment.link_title
                     else:
@@ -143,7 +163,7 @@ def _load_feeds():
                         json.dumps(content), # content
                         TYPE, # type
                         json.dumps({'title': element.name, 'source': source, 'subreddit': subreddit}), # source
-                        _get_date(post), # time
+                        _get_date(comment), # time
                     ))
 
             except ConnectionError, e:
