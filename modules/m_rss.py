@@ -98,7 +98,8 @@ def _load_feeds():
                     content,
                     TYPE,
                     'A new post from ' + str(rssfeed.name),
-                    date
+                    date,
+                    entry.link,
                 )
             )
 

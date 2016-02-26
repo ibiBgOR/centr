@@ -18,7 +18,7 @@ app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + basedir + '/app.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-app.debug = True
+app.debug = config.DEBUG
 
 engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'], convert_unicode = True)
 database = SQLAlchemy(app)
@@ -73,7 +73,7 @@ def main_route():
 
     feeditems.sort(key = lambda element: element.time, reverse = True)
 
-    return render_template('dashboard.html', feeditems = feeditems, addonitems = addonitems, extended = False)
+    return render_template('dashboard.html', feeditems = feeditems, addonitems = addonitems, extended = config.SHOW_LINKS)
 
 def __load_all_modules():
     '''

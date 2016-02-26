@@ -45,6 +45,7 @@ body {
   display: flex;
   flex-direction: column;
   margin: 0 auto 10px auto;
+  padding-bottom: 16px;
   font-size: 14px;
   border-radius: 2px;
   background-color: #FFFFFF;
@@ -69,6 +70,11 @@ body {
   padding: 4px 0 4px 0;
 }
 
+.cardopen {
+  padding: 8px;
+  float: right;
+}
+
 .cardsource {
   opacity: 0.87;
 }
@@ -79,7 +85,6 @@ body {
 
 .cardcontent {
   padding: 0 16px;
-  margin-bottom: 24px;
 }
 
 .cardfooter {

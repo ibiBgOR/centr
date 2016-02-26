@@ -9,6 +9,9 @@ databasefile = os.path.join(basedir, '<name of keepass file>')
 
 extract = keepass.KeePassExtract(databasefile, content[0])
 
+SHOW_LINKS = True   # indicates whether or not a link to the source side should be shown on the dashboard
+DEBUG = False       # run the server in debug mode?
+
 entry = extract.get_entry('github')
 
 github = {

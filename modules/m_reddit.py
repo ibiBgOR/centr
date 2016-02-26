@@ -92,7 +92,8 @@ def get_feeds():
             content,
             TYPE,
             source,
-            feed.time
+            feed.time,
+            feed.link
         ))
         feedsources[feed_map[loaded_source['title']]]['counter'] += 1
 
@@ -122,11 +123,19 @@ def _load_feeds():
                     elif hasattr(post, 'selftext'):
                         content['content'] = post.selftext
 
+                    url = ''
+
+                    if hasattr(post, 'url'):
+                        url = post.url
+                    elif hasattr(post, 'permalink'):
+                        url = post.permalink
+
                     conn.insert_element(DBFeedItem(
                         json.dumps(content), # content
                         TYPE, # type
                         json.dumps({'title': element.name}), # source
                         _get_date(post), # time
+                        url, # link
                     ))
             except ConnectionError, e:
                 _logger.error('There was an error with the connection. ' + str(e))
@@ -160,11 +169,19 @@ def _load_feeds():
                     else:
                         continue
 
+                    url = ''
+
+                    if hasattr(comment, 'url'):
+                        url = comment.url
+                    elif hasattr(comment, 'permalink'):
+                        url = comment.permalink
+
                     conn.insert_element(DBFeedItem(
                         json.dumps(content), # content
                         TYPE, # type
                         json.dumps({'title': element.name, 'source': source, 'subreddit': subreddit}), # source
                         _get_date(comment), # time
+                        url, # link
                     ))
 
             except ConnectionError, e:

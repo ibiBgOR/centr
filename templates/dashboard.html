@@ -20,16 +20,17 @@
               <span class="cardsource">{{ item.source }}</span><br/>
               <span class="cardtime">{{ item.time }}</span>
             </div>
+            {% if extended and item.link %}
+              <a href="{{item.link}}" target="_blank">
+                <img class="cardopen" src="{{ url_for('static', filename='images/icon_open.png') }}" alt="Open Website" />
+              </a>
+            {% endif %}
           </div>
           <div class="cardcontent">
             {% include 'cards/' + item.type + '.html' ignore missing %}
           </div>
-          {% if extended %}
-            <span class="cardfooter">
-              <button class="cardaction">More</button>
-              <button class="cardaction">Remove</button>
-            </span>
-          {% endif %}
+          <span class="cardfooter">
+          </span>
         </div>
       {% endfor %}
     </div>

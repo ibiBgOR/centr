@@ -42,6 +42,7 @@ def get_feeds():
             type = feed.type,
             source = feed.source,
             time = feed.time,
+            link = feed.link,
         ))
 
         count += 1
@@ -58,6 +59,9 @@ def _load_feeds():
             if _type not in accepted_types:
                 continue
 
+            content = None
+            link = None
+
             source = source_type_mapping[_type]
 
             if _type == 'track' or _type == 'track-repost':
@@ -73,6 +77,7 @@ def _load_feeds():
                     'duration': element.origin.duration,
                 })
                 source = source.format(element.origin.user['username'])
+                link = element.origin.permalink_url
             elif _type == 'comment':
                 pass
             elif _type == 'favoriting':
@@ -80,18 +85,21 @@ def _load_feeds():
             else:
                 print 'Not accepted!'
                 continue
+
+            time = datetime.datetime.strptime(element.created_at, '%Y/%m/%d %H:%M:%S +%f') # e.g. 2016/02/17 15:03:31 +0000
+            _save_element(content, source, time, link)
     except ConnectionError, e:
         return
     except Exception, e:
         return
 
-    time = datetime.datetime.strptime(element.created_at, '%Y/%m/%d %H:%M:%S +%f') # e.g. 2016/02/17 15:03:31 +0000
-
+def _save_element(content, source, time, link):
     conn.insert_element(
         DBFeedItem(
             content,    # content
             TYPE,       # element type (soundcloud)
-            source,      # source (the type of the element from soundcloud)
-            time        # time (as datetime)
+            source,     # source (the type of the element from soundcloud)
+            time,       # time (as datetime)
+            link,       # link to source
         )
     )

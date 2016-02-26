@@ -13,16 +13,18 @@ class DBFeedItem(db.Model):
     type = db.Column(db.String(20))
     source = db.Column(db.String(125))
     time = db.Column(db.DateTime)
+    link = db.Column(db.Text)
 
     __table_args__ = (
         db.UniqueConstraint('content', 'source', name = 'uk_content_source'),
     )
 
-    def __init__(self, content, type, source, time):
+    def __init__(self, content, type, source, time, link = ""):
         self.content = content
         self.type = type
         self.source = source
         self.time = time
+        self.link = link
 
     def __repr__(self):
         return 'DBFeedItem ID: ' + str(self.id)
