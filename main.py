@@ -5,6 +5,10 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine
 from flask_script import Manager
 import datetime
+import threading
+import time
+import logging
+logging.basicConfig()
 import os
 import config
 from feeditem import Feeditem
@@ -18,6 +22,8 @@ app.debug = True
 
 engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'], convert_unicode = True)
 database = SQLAlchemy(app)
+_logger = logging.getLogger()
+
 
 migrate = Migrate(app, database)
 manager = Manager(app)
@@ -34,7 +40,7 @@ addons = []
 @app.route("/")
 def main_route():
 
-    from db import DBFeedItem, DBLogItem, DBConnection, LOG_LEVEL
+    from db import DBFeedItem, DBConnection
 
     conn = DBConnection()
 
@@ -42,20 +48,17 @@ def main_route():
     addonitems = []
 
     if addons == None:
-        print 'No addon loaded...'
+        _logger.info('No addon loaded...')
         return
+
+    _logger.info(str(len(addons)) + ' addons loaded...')
 
     for addon in addons:
         if hasattr(addon, 'get_feeds'):
             feeds = getattr(addon, 'get_feeds')()
         else:
-            conn.insert_element(
-                DBLogItem('The addon ' + str(addon) + ' is not supported. Please implement a "get_feeds()" function or contact the developer.',
-                            datetime.datetime.now(),
-                            LOG_LEVEL['warn']
-                )
-            )
-            feeds = None
+            _logger.warn('The addon ' + str(addon) + ' is not supported. Please implement a "get_feeds()" function or contact the developer.')
+            continue
 
         if feeds == None or len(feeds) == 0:
             continue
@@ -66,12 +69,7 @@ def main_route():
             if isinstance(feed, Feeditem) or isinstance(feed, DBFeedItem):
                 feeditems.append(feed)
             else:
-                conn.insert_element(
-                    DBLogItem('The Element (' + str(feed) + ') could not be placed on the stream.',
-                                datetime.datetime.now(),
-                                LOG_LEVEL['warn']
-                    )
-                )
+                _logger.warn('The element (' + str(feed) + ') could not be placed on the stream.')
 
     feeditems.sort(key = lambda element: element.time, reverse = True)
 
@@ -84,8 +82,35 @@ def __load_all_modules():
     import modules.__init__
     import importlib
 
+    _logger.info('Start to load the modules...')
+
     for addon in modules.__init__.__all__:
-        addons.append(importlib.import_module('.' + addon, 'modules'))
+        module = importlib.import_module('.' + addon, 'modules')
+
+        addons.append(module)
+        thread = FetchThread(str(addon), module)
+        thread.setDaemon(True)
+        thread.start()
+
+
+class FetchThread(threading.Thread):
+
+    _logger = None
+
+    def __init__(self, name, module):
+        threading.Thread.__init__(self)
+        self.name = name
+        self.module = module
+        self._logger = logging.getLogger(self.name)
+
+    def run(self):
+        if hasattr(self.module, '_load_feeds'):
+            while True:
+                self.module._load_feeds()
+                time.sleep(60) # 1 min
+        else:
+            self._logger.warning('The addon ' + str(self.name) + ' does not implement the "_load_feeds()" function.')
+
 
 if __name__ == "__main__":
     __load_all_modules()

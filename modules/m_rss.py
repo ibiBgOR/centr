@@ -23,8 +23,6 @@ class RSSFeed:
 def get_feeds():
     feeditems = []
 
-    _load_feeds(rssfeeds)
-
     feedsources = []
     feed_map = {}
 
@@ -58,8 +56,10 @@ def get_feeds():
 
     return feeditems
 
-def _load_feeds(feeds):
-    for rssfeed in feeds:
+def _load_feeds():
+    reload_config()
+
+    for rssfeed in rssfeeds:
         for entry in rssfeed.parse().entries:
             # parse loaded data
             content = ''

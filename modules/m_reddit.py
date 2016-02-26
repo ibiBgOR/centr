@@ -5,12 +5,15 @@ from config import reddit as config
 from db import DBConnection, DBFeedItem
 from feeditem import Feeditem
 from main import app
+import logging
 import json
 from requests.exceptions import ConnectionError
 
 TYPE = 'reddit'
 USERS = 'u'
 SUBREDDIT = 'r'
+
+_logger = logging.getLogger(TYPE)
 
 reddit_feeds = []
 
@@ -30,8 +33,6 @@ class RedditFeed:
         self.max_count = max_count
 
 def get_feeds():
-    _load_feeds()
-
     result = []
 
     feedsources = []
@@ -128,7 +129,7 @@ def _load_feeds():
                         _get_date(post), # time
                     ))
             except ConnectionError, e:
-                print str(e)
+                _logger.error('There was an error with the connection. ' + str(e))
 
         elif element.source == USERS:
             try:
@@ -167,7 +168,7 @@ def _load_feeds():
                     ))
 
             except ConnectionError, e:
-                print str(e)
+                _logger.error('There was an error with the connection. ' + str(e))
 
 def reload_config():
     if 'subreddits' in config:
@@ -176,7 +177,6 @@ def reload_config():
     if 'users' in config:
         for useritem in config['users']:
             reddit_feeds.append(RedditFeed(useritem['name'], USERS, useritem['max_count']))
-
 
 reload_config()
 

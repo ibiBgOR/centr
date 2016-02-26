@@ -27,8 +27,6 @@ source_type_mapping = {
 }
 
 def get_feeds():
-    _load_feeds()
-
     result = []
 
     feeds = conn.get_feeds(TYPE)
@@ -83,17 +81,17 @@ def _load_feeds():
                 print 'Not accepted!'
                 continue
     except ConnectionError, e:
-        return 
+        return
     except Exception, e:
         return
 
-        time = datetime.datetime.strptime(element.created_at, '%Y/%m/%d %H:%M:%S +%f') # e.g. 2016/02/17 15:03:31 +0000
+    time = datetime.datetime.strptime(element.created_at, '%Y/%m/%d %H:%M:%S +%f') # e.g. 2016/02/17 15:03:31 +0000
 
-        conn.insert_element(
-            DBFeedItem(
-                content,    # content
-                TYPE,       # element type (soundcloud)
-                source,      # source (the type of the element from soundcloud)
-                time        # time (as datetime)
-            )
+    conn.insert_element(
+        DBFeedItem(
+            content,    # content
+            TYPE,       # element type (soundcloud)
+            source,      # source (the type of the element from soundcloud)
+            time        # time (as datetime)
         )
+    )

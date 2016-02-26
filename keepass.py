@@ -1,13 +1,17 @@
 import libkeepass
+import logging
 
 class KeePassExtract():
+
+    _logger = logging.getLogger('keypassextract')
+
     def __init__(self, databasefile_, password_):
         self.databasefile = databasefile_
         self.password = password_
 
     def get_entry(self, title):
         if self.databasefile == None or self.password == None:
-            print 'Not initalized'
+            self._logger.error('Not initialized...')
             return None
 
         with libkeepass.open(self.databasefile, password = self.password) as kdb:
