@@ -9,8 +9,9 @@
       <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/' + item | default('empty') + '.css') }}">
     {% endfor %}
   </head>
-  <body>
+  <body onscroll="headerScroll()">
     {% include 'header.html' %}
+    <script type="application/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
     <div id="content">
       {% for item in feeditems %}
         <div class="card">
