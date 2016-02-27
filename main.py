@@ -107,7 +107,7 @@ class FetchThread(threading.Thread):
         if hasattr(self.module, '_load_feeds'):
             while True:
                 self.module._load_feeds()
-                time.sleep(60) # 1 min
+                time.sleep(300) # every 5 minutes
         else:
             self._logger.warning('The addon ' + str(self.name) + ' does not implement the "_load_feeds()" function.')
 

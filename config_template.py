@@ -17,7 +17,23 @@ entry = extract.get_entry('github')
 github = {
     'username': '<username>', # or entry.username,
     'password': '<password>', # or entry.password,
-    'max_count': <max item count>
+    'max_count': <max item count>,
+    'accepted_types': {
+        'CommitCommentEvent': True,
+        'CreateEvent': True,
+        'DeleteEvent': True,
+        'ForkEvent': True,
+        'GollumEvent': True,
+        'IssueCommentEvent': True,
+        'IssuesEvent': True,
+        'MemberEvent': True,
+        'PublicEvent': True,
+        'PullRequestEvent': True,
+        'PullRequestReviewCommentEvent': True,
+        'PushEvent': True,
+        'ReleaseEvent': True,
+        'WatchEvent': True,
+    }
 }
 
 reddit = {
