@@ -23,15 +23,15 @@
             </div>
             {% if extended and item.link %}
               <a href="{{item.link}}" target="_blank">
-                <img class="cardopen" src="{{ url_for('static', filename='images/icon_open.png') }}" alt="Open Website" />
+                <img class="cardlink" src="{{ url_for('static', filename='images/icon_open.png') }}" alt="Open Website" />
               </a>
             {% endif %}
           </div>
-          <div class="cardcontent">
-            {% include 'cards/' + item.type + '.html' ignore missing %}
-          </div>
-          <span class="cardfooter">
-          </span>
+          {% if item.content %}
+            <div class="cardcontent">
+              {% include 'cards/' + item.type + '.html' ignore missing %}
+            </div>
+          {% endif %}
         </div>
       {% endfor %}
     </div>

@@ -51,7 +51,6 @@ body {
   display: flex;
   flex-direction: column;
   margin: 0 auto 10px auto;
-  padding-bottom: 16px;
   font-size: 14px;
   border-radius: 2px;
   background-color: #FFFFFF;
@@ -76,7 +75,7 @@ body {
   padding: 4px 0 4px 0;
 }
 
-.cardopen {
+.cardlink {
   padding: 8px;
   float: right;
 }
@@ -91,11 +90,7 @@ body {
 
 .cardcontent {
   padding: 0 16px;
-}
-
-.cardfooter {
-  margin-top: 8px;
-  padding: 8px;
+  margin-bottom: 16px;
 }
 
 .cardaction {
