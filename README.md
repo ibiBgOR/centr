@@ -36,6 +36,10 @@ You can contribute by adding issues and suggesting new services. Or you simply f
 
 [ ] Reddit (implement user login -> monitor new mails (new comments and new upvotes))
 
+[ ] Implement infinity-scroll?
+
+[ ] Performance fixes (away from prerendered templates to real web technology?)
+
 # License
 Centr is licensed under the GNU General Public License version 3.
 The text of the GNU General Public License can be viewed at http://www.gnu.org/licenses/gpl.html
