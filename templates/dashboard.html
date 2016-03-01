@@ -14,6 +14,10 @@
     <script type="application/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
     <div id="content">
       {% for item in feeditems %}
+        {% if item.time.year < date.year or item.time.month < date.month or item.time.day < date.day %}
+          {% set date = item.time %}
+          <span class="datedevider">{{ date | datetime }}</span>
+        {% endif %}
         <div class="card">
           <div class="cardheader">
             <img class="cardicon" src="{{ url_for('static', filename='images/' + item.type | default('empty') + '.png') }}" alt={{ item.type }} />

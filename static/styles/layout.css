@@ -45,6 +45,16 @@ body {
   flex: 1;
 }
 
+.datedevider {
+  width: calc(750px - 2 * 16px); /* 2 * 16 is the padding. Otherwise this padding won't have any effect. */
+  display: flex;
+  padding: 16px;
+  margin: 0 auto;
+  font-size: 14px;
+  color: #000000;
+  opacity: 0.54;
+}
+
 .card {
   width: 750px;
   height: auto;

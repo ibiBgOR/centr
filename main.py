@@ -37,6 +37,10 @@ def runserver():
 
 addons = []
 
+@app.template_filter('datetime')
+def _jinja2_filter_datetime(date):
+    return date.strftime('%d.%m.%Y')
+
 @app.route("/")
 def main_route():
 
@@ -73,7 +77,12 @@ def main_route():
 
     feeditems.sort(key = lambda element: element.time, reverse = True)
 
-    return render_template('dashboard.html', feeditems = feeditems, addonitems = addonitems, extended = config.SHOW_LINKS)
+    return render_template('dashboard.html',
+        feeditems = feeditems,
+        addonitems = addonitems,
+        extended = config.SHOW_LINKS,
+        date = datetime.datetime.utcnow()
+    )
 
 def __load_all_modules():
     '''
