@@ -6,8 +6,9 @@ There are millions of services out there. Each one comes with an extra dashboard
 # Features
 ## Included Services:
 - RSS Feed support
-- Soundcloud (partly WIP)
-- Reddit (partly WIP)
+- Soundcloud (partly WIP (see TODO))
+- Reddit (partly WIP (see TODO))
+- GitHub
 
 ## Other Features:
 - KeePass Connection
