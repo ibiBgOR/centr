@@ -5,7 +5,7 @@ from requests.exceptions import ConnectionError
 import logging
 import datetime
 
-gh = GitHub(login = config['username'], password = config['password'])
+gh = GitHub(config['username'], config['password'])
 events = gh.user(config['username']).iter_received_events(public = True)
 
 TYPE = 'github'

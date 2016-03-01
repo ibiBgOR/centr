@@ -7,4 +7,4 @@ Flask-Markdown
 soundcloud
 libkeepass
 praw
-github3.py
+github3.py==0.9.5
